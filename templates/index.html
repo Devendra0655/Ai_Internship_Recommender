@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Internship Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="hero">
+    <h1>AI Internship Recommender</h1>
+    <p>Smart internship matching using AI</p>
+    <span class="powered">Powered by Google Gemini</span>
+</div>
+
+<div class="upload-card">
+<form method="POST" enctype="multipart/form-data">
+
+<label>Upload Resume (PDF)</label>
+<input type="file" name="resume">
+
+<label>Enter Skills (comma separated)</label>
+<input type="text" name="skills" placeholder="python, sql, data science">
+
+<h3>Filters</h3>
+<input type="text" name="domain" placeholder="Domain">
+<input type="text" name="location" placeholder="Location">
+<input type="text" name="duration" placeholder="Duration">
+
+<button type="submit">Analyze Profile</button>
+</form>
+</div>
+
+{% if skills %}
+<div class="section">
+<h2>Extracted Skills</h2>
+{% for s in skills %}
+<span class="skill-chip">{{ s }}</span>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if results %}
+<div class="section">
+<h2>Recommended Internships</h2>
+
+{% for internship in results %}
+<div class="internship-card">
+
+<h3>{{ internship.title }} – {{ internship.company }}</h3>
+
+<p><strong>Domain:</strong> {{ internship.domain }}</p>
+<p><strong>Location:</strong> {{ internship.location }}</p>
+<p><strong>Duration:</strong> {{ internship.duration }}</p>
+<p><strong>Stipend:</strong> {{ internship.stipend }}</p>
+
+<p><strong>Match Score:</strong> {{ internship.score }}%</p>
+<div class="progress-bar">
+<div class="progress-fill" style="width: {{ internship.score }}%"></div>
+</div>
+
+<p><strong>Matched Skills:</strong></p>
+{% for s in internship.matched_skills %}
+<span class="skill-chip">{{ s }}</span>
+{% endfor %}
+
+<p><strong>Skill Gap (Suggestions):</strong></p>
+{% for s in internship.missing_skills %}
+<span class="skill-gap">{{ s }}</span>
+{% endfor %}
+
+</div>
+{% endfor %}
+</div>
+
+<a href="/download-report" class="download-btn">Download Resume Report</a>
+{% endif %}
+
+<!-- AI Career Guidance Section -->
+<section class="ai-section">
+    <h2>🤖 AI Career Guidance (Powered by Google Gemini)</h2>
+    <div class="ai-card">
+        <pre>{{ career_advice }}</pre>
+    </div>
+</section>
+
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

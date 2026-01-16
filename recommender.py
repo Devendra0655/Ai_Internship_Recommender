@@ -1,6 +1,5 @@
 import pandas as pd
 
-# Domain-wise expected skills (logical mapping)
 DOMAIN_SKILLS = {
     "data science": ["python", "pandas", "numpy", "machine learning", "sql"],
     "ai": ["python", "machine learning", "deep learning", "nlp"],
@@ -17,7 +16,7 @@ def recommend(user_skills, csv_path, filters):
 
     for _, row in df.iterrows():
 
-        # Infer domain from title (since dataset is limited)
+
         title = str(row["internship_title"]).lower()
 
         domain = "general"
@@ -35,7 +34,7 @@ def recommend(user_skills, csv_path, filters):
         if expected_skills:
             score = int((len(matched) / len(expected_skills)) * 100)
 
-        # Apply filters safely
+
         if filters.get("location"):
             if filters["location"].lower() not in str(row["location"]).lower():
                 continue
@@ -56,7 +55,7 @@ def recommend(user_skills, csv_path, filters):
             "score": score
         })
 
-    # Sort by best match
+
     results = sorted(results, key=lambda x: x["score"], reverse=True)
 
     return results

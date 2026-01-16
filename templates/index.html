@@ -33,9 +33,11 @@
 {% if skills %}
 <div class="section">
 <h2>Extracted Skills</h2>
+<div class="skills">
 {% for s in skills %}
 <span class="skill-chip">{{ s }}</span>
 {% endfor %}
+</div>
 </div>
 {% endif %}
 
@@ -43,8 +45,9 @@
 <div class="section">
 <h2>Recommended Internships</h2>
 
+<div class="results">
 {% for internship in results %}
-<div class="internship-card">
+<div class="internship-card animate">
 
 <h3>{{ internship.title }} – {{ internship.company }}</h3>
 
@@ -59,30 +62,38 @@
 </div>
 
 <p><strong>Matched Skills:</strong></p>
+<div style="margin: 10px 0;">
 {% for s in internship.matched_skills %}
-<span class="skill-chip">{{ s }}</span>
+<span class="skill-tag">{{ s }}</span>
 {% endfor %}
+</div>
 
-<p><strong>Skill Gap (Suggestions):</strong></p>
+<p><strong>Skill Gap:</strong></p>
+<div style="margin: 10px 0;">
 {% for s in internship.missing_skills %}
 <span class="skill-gap">{{ s }}</span>
 {% endfor %}
+</div>
 
 </div>
 {% endfor %}
 </div>
 
-<a href="/download-report" class="download-btn">Download Resume Report</a>
+<div style="text-align: center; margin-top: 30px;">
+<a href="/download-report" class="upload-card button" style="display: inline-block; text-decoration: none; max-width: 250px;">Download Resume Report</a>
+</div>
+
+</div>
 {% endif %}
 
-<!-- AI Career Guidance Section -->
-<section class="ai-section">
-    <h2>🤖 AI Career Guidance (Powered by Google Gemini)</h2>
-    <div class="ai-card">
-        <pre>{{ career_advice }}</pre>
+{% if career_advice %}
+<div class="career-advice-section animate">
+    <h2>🎯 AI Career Guidance</h2>
+    <div class="advice-content">
+        {{ career_advice | safe }}
     </div>
-</section>
-
+</div>
+{% endif %}
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
